@@ -123,7 +123,6 @@ export default class Carousel extends React.Component<CarouselProps, CarouselSta
             selectedItem: props.selectedItem,
             hasMount: false,
             isMouseEntered: false,
-            autoPlay: props.autoPlay,
             swiping: false,
             swipeMovementStarted: false,
             cancelClick: false,
@@ -181,8 +180,6 @@ export default class Carousel extends React.Component<CarouselProps, CarouselSta
             } else {
                 this.destroyAutoPlay();
             }
-
-            this.setState({ autoPlay: this.props.autoPlay });
         }
     }
 
@@ -209,10 +206,10 @@ export default class Carousel extends React.Component<CarouselProps, CarouselSta
         this.itemsRef[index] = node;
     };
 
-    setupCarousel() {
+    setupCarousel = () => {
         this.bindEvents();
 
-        if (this.state.autoPlay && Children.count(this.props.children) > 1) {
+        if (this.props.autoPlay && Children.count(this.props.children) > 1) {
             this.setupAutoPlay();
         }
 
@@ -234,7 +231,7 @@ export default class Carousel extends React.Component<CarouselProps, CarouselSta
                 }
             }
         );
-    }
+    };
 
     destroyCarousel() {
         if (this.state.initialized) {
@@ -449,7 +446,7 @@ export default class Carousel extends React.Component<CarouselProps, CarouselSta
         });
         this.props.onSwipeEnd(event);
 
-        if (this.state.autoPlay) {
+        if (this.props.autoPlay) {
             this.autoPlay();
         }
     };
@@ -518,7 +515,7 @@ export default class Carousel extends React.Component<CarouselProps, CarouselSta
 
         // don't reset auto play when stop on hover is enabled, doing so will trigger a call to auto play more than once
         // and will result in the interval function not being cleared correctly.
-        if (this.state.autoPlay && this.state.isMouseEntered === false) {
+        if (this.props.autoPlay && this.state.isMouseEntered === false) {
             this.resetAutoPlay();
         }
     };
